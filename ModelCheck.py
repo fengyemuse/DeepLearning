@@ -1,4 +1,3 @@
-
 import tensorflow.keras as keras
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -49,7 +48,7 @@ model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
 # initiate RMSprop optimizer
-opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
+opt = keras.optimizers.RMSprop(lr=0.0001, decay=1e-6)
 
 # Let's train the model using RMSprop
 model.compile(loss='categorical_crossentropy',
@@ -62,7 +61,9 @@ x_train /= 255
 x_test /= 255
 
 filepath = "model_{epoch:02d}-{val_acc:.2f}.hdf5"
-checkpoint = ModelCheckpoint(os.path.join(save_dir, filepath), monitor='val_acc', verbose=1,
+checkpoint = ModelCheckpoint(os.path.join(save_dir, filepath),
+                             monitor='accuracy',
+                             verbose=0,
                              save_best_only=True)
 
 history = model.fit(x_train, y_train,
