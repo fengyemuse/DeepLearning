@@ -60,7 +60,7 @@ x_test = x_test.astype('float32')
 x_train /= 255
 x_test /= 255
 
-filepath = "model_{epoch:02d}-{val_acc:.2f}.hdf5"
+filepath = "model_{epoch:02d}-accuracy{accuracy:.2f}.hdf5"
 checkpoint = ModelCheckpoint(os.path.join(save_dir, filepath),
                              monitor='accuracy',
                              verbose=0,
@@ -81,6 +81,6 @@ model.save(model_path)
 print('Saved trained model at %s ' % model_path)
 
 # Score trained model.
-scores = model.evaluate(x_test, y_test, verbose=1)
+scores = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', scores[0])
 print('Test accuracy:', scores[1])
