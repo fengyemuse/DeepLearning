@@ -2,10 +2,6 @@ from sklearn import datasets
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
-from sklearn.model_selection import cross_val_score, KFold, GridSearchCV
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
 from matplotlib import pyplot as plt
 
 dataset = datasets.load_iris()
