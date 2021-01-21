@@ -2,7 +2,7 @@ from sklearn import datasets
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
-from sklearn.model_selection import cross_val_score, KFold, GridSearchCV
+from sklearn.model_selection import cross_val_score, KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
@@ -15,13 +15,15 @@ np.random.seed(seed)
 
 def create_model(units_list=None, opitimizer='adam'):
     if units_list is None:
-        units_list = [13]
+        units_list = [18]
     model = tf.keras.Sequential()
-    for unit in units_list:
+    model.add(tf.keras.layers.Dense(units=units_list[0], activation='relu', input_shape=(13,)))
+    for unit in units_list[1:]:
         model.add(tf.keras.layers.Dense(units=unit, activation='relu'))
         model.add(tf.keras.layers.Dropout(0.2))
     model.add(tf.keras.layers.Dense(units=1))
     model.compile(loss='mean_squared_error', optimizer=opitimizer)
+    model.summary()
     return model
 
 
