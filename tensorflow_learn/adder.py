@@ -10,4 +10,4 @@ sess = tf.compat.v1.Session()
 
 summary_writer = tf.compat.v1.summary.FileWriter('/tmp/1', sess.graph)
 summary_writer.close()
-#print(sess.run([z], values))
+# print(sess.run([z], values))
