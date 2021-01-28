@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Cats_vs_dogs/test1" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Cats_vs_dogs/train" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Cats_vs_dogs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Cifar10" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
