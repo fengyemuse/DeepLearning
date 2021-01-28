@@ -12,6 +12,7 @@ def create_model():
     cnn_model.add(tf.keras.layers.Conv2D(128, (3, 3), activation='relu'))
     cnn_model.add(tf.keras.layers.MaxPool2D((2, 2)))
     cnn_model.add(tf.keras.layers.Flatten())
+    cnn_model.add(tf.keras.layers.Dropout(0.5))
     cnn_model.add(tf.keras.layers.Dense(512, activation='relu'))
     cnn_model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
     cnn_model.compile(loss=tf.keras.losses.binary_crossentropy,

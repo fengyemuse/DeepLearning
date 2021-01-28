@@ -1,22 +1,12 @@
 import tensorflow as tf
 from tensorflow.keras.datasets import cifar10
-from tensorflow.keras import backend
 from tensorflow.keras.initializers import RandomNormal
+from tensorflow.keras import optimizers
 from tensorflow.keras.callbacks import LearningRateScheduler, TensorBoard
-import numpy as np
-#
-# from tensorflow.compat.v1 import ConfigProto
-# from tensorflow.compat.v1 import InteractiveSession
-#
-# config = ConfigProto()
-# config.gpu_options.allow_growth = True
-# session = InteractiveSession(config=config)
 
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
 tf.config.experimental.set_memory_growth(physical_devices[0], True)
-
-backend.set_image_data_format('channels_first')
 
 batch_size = 128
 epochs = 200
@@ -101,24 +91,39 @@ def build_model():
                                      activation='relu'))
     model.add(tf.keras.layers.GlobalAveragePooling2D())
     model.add(tf.keras.layers.Activation('softmax'))
-    model.summary()
-    model.compile(loss='categorical_crossentropy',
-                  optimizer=tf.keras.optimizers.SGD(lr=0.01, momentum=0.9, nesterov=True),
-                  metrics=['accuracy'])
+
+    sgd = optimizers.SGD(lr=0.1, momentum=0.9, nesterov=True)
+    model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
     return model
 
 
 if __name__ == '__main__':
     (x_train, y_train), (x_validation, y_validation) = cifar10.load_data()
-    print(np.isnan(x_validation).any())
-    print(np.isnan(y_validation).any())
-    y_train = tf.keras.utils.to_categorical(y_train)
-    y_validation = tf.keras.utils.to_categorical(y_validation)
+    y_train = tf.keras.utils.to_categorical(y_train, num_classes)
+    y_validation = tf.keras.utils.to_categorical(y_validation, num_classes)
     x_train, x_validation = normalize_preprocessing(x_train, x_validation)
+
+    # build network
     model = build_model()
+    print(model.summary())
+
+    # set callback
     tb_cb = TensorBoard(log_dir=log_filepath, histogram_freq=0)
     change_lr = LearningRateScheduler(scheduler)
     cbks = [change_lr, tb_cb]
+
+    '''
+    # set data augmentation
+    print('Using real-time data augmentation.')
+    from keras.preprocessing.image import ImageDataGenerator
+    datagen = ImageDataGenerator(horizontal_flip=True, width_shift_range=0.125, height_shift_range=0.125,
+                                 fill_mode='constant', cval=0.)
+    datagen.fit(x_train)
+
+    # start training
+    model.fit_generator(datagen.flow(x_train, y_train, batch_size=batch_size), steps_per_epoch=iterations,
+                        epochs=epochs, callbacks=cbks, validation_data=(x_validation, y_validation), verbose=2)
+    '''
     model.fit(x_train, y_train,
               batch_size=batch_size,
               epochs=epochs,
