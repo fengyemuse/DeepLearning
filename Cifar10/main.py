@@ -16,6 +16,7 @@ dropout = 0.5
 log_filepath = r'.\nin'
 
 
+# tensorboard --logdir=/full_path_to_your_logs
 def normalize_preprocessing(x_train, x_validation):
     x_train = x_train.astype('float32')
     x_validation = x_validation.astype('float32')
@@ -89,7 +90,7 @@ def build_model():
                                      kernel_regularizer=tf.keras.regularizers.l2(0.0001),
                                      kernel_initializer=RandomNormal(stddev=0.05),
                                      activation='relu'))
-    model.add(tf.keras.layers.GlobalAveragePooling2D())
+    model.add(tf.keras.layers.GlobalAveragePooling2D())  # 代替Dense 有更好的抗过拟合能力，降低需要训练的参数
     model.add(tf.keras.layers.Activation('softmax'))
 
     sgd = optimizers.SGD(lr=0.1, momentum=0.9, nesterov=True)
