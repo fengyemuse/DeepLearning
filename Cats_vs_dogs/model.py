@@ -30,7 +30,7 @@ def create_model():
 
 
 train_dir = r'D:\work\Deeplearning_Data\cats_dogs\cats_vs_dogs_data\train'
-validation = r'D:\work\Deeplearning_Data\cats_dogs\cats_vs_dogs_data\validation'
+validation_dir = r'D:\work\Deeplearning_Data\cats_dogs\cats_vs_dogs_data\validation'
 
 if __name__ == '__main__':
     CNN_model = create_model()
@@ -44,7 +44,7 @@ if __name__ == '__main__':
         batch_size=32,
         class_mode='binary')
     validation_generator = train_datagen.flow_from_directory(
-        directory=train_dir,
+        directory=validation_dir,
         target_size=(150, 150),
         batch_size=32,
         class_mode='binary')
