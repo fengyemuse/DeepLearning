@@ -16,7 +16,7 @@ dropout = 0.5
 log_filepath = r'.\nin'
 
 
-# tensorboard --logdir=/full_path_to_your_logs
+# tensorboard --logdir=full_path_to_your_logs
 def normalize_preprocessing(x_train, x_validation):
     x_train = x_train.astype('float32')
     x_validation = x_validation.astype('float32')
