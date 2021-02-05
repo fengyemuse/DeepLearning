@@ -28,7 +28,6 @@ def calcDistance(Lat_A, Lng_A, Lat_B, Lng_B):
     return distance
 
 
-
 Lat_A = 30.418918
 Lng_A = 104.557653
 Lat_B = 30.565774
